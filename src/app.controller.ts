@@ -3,6 +3,7 @@ import { AppService } from './app.service';
 import { AuthGuard } from '@nestjs/passport';
 import { type Request } from 'express';
 import { JwtService } from '@nestjs/jwt';
+import { IsPublic } from './is-public.decorator';
 
 @Controller()
 export class AppController {
@@ -35,5 +36,16 @@ export class AppController {
   getProfile(@Req() req: Request) {
     console.log(req.user);
     return req.user;
+  }
+
+  @Get('public')
+  @IsPublic()
+  getPublic() {
+    return { message: 'This is a public endpoint' };
+  }
+
+  @Get('private')
+  getPrivate(@Req() req: Request) {
+    return { message: 'This is a private endpoint', user: req.user };
   }
 }
