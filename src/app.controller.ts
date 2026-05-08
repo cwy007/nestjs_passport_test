@@ -29,4 +29,11 @@ export class AppController {
     );
     return { access_token: token };
   }
+
+  @Get('profile')
+  @UseGuards(AuthGuard('jwt'))
+  getProfile(@Req() req: Request) {
+    console.log(req.user);
+    return req.user;
+  }
 }
